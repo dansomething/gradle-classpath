@@ -1,0 +1,45 @@
+plugins {
+  id 'java'
+  id 'application'
+}
+
+ext {
+  javaVersion = '1.8'
+  junitVersion = '5.7.1'
+  picocliVersion = '4.6.1'
+  slf4jVersion = '1.7.30'
+  toolingApiVersion = gradle.gradleVersion
+}
+
+
+repositories {
+  maven {
+    url 'https://repo.gradle.org/gradle/libs-releases-local'
+  }
+  mavenCentral()
+}
+
+compileJava {
+  sourceCompatibility = javaVersion
+  targetCompatibility = javaVersion
+}
+
+dependencies {
+  implementation "org.gradle:gradle-tooling-api:${toolingApiVersion}"
+  implementation "info.picocli:picocli:${picocliVersion}"
+
+  annotationProcessor "info.picocli:picocli-codegen:${picocliVersion}"
+
+  runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+application {
+  mainClass = 'com.dansomething.gradle.classpath.App'
+}
+
+test {
+  useJUnitPlatform()
+}
