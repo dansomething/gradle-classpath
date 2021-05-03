@@ -15,7 +15,7 @@ import picocli.CommandLine.Option;
  */
 @Command(name = "gradle-classpath", mixinStandardHelpOptions = true,
     version = "gradle-classpath 0.1.0",
-    description = "Prints the Gradle classpath to a file or STDOUT.")
+    description = "Outputs the Gradle classpath to a file or STDOUT.")
 public class App implements Callable<Integer> {
   @Option(names = {"-G", "--gradle-home"},
       description = "Specifies the Gradle installation directory to use."
