@@ -26,3 +26,4 @@ gradle-app.setting
 # Vim
 .vim/
 .vimrc
+.vimspector.json
