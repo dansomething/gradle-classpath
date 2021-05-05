@@ -10,6 +10,10 @@ provide that missing functionality in a simple command-line utility which behave
 
 This Gradle classpath utility is used by the [coc-groovy][coc-groovy] project.
 
+## Prerequisites
+
+- [Java][java] (version 1.8.0 or later)
+
 ## Installation
 
 ### Option 1: Release
@@ -18,29 +22,25 @@ This is the easiest way to get started.
 
 Download the latest package from the [Releases page][releases] and then extract the download.
 
-Make sure to add the location of the `gradle-classpath/bin` directory to your `$PATH`.
+Be sure to add the location of the `gradle-classpath/bin` directory to your `$PATH`.
 
 ### Option 2: From source
 
-```bash
-$ git clone https://github.com/dansomething/gradle-classpath.git
-$ cd gradle-classpath
-$ ./gradlew installDist
-```
+See [Building](#building)
 
-Make sure to add the location of the `build/install/gradle-classpath/bin/` directory to your `$PATH`.
+Be sure to add the location of the `build/install/gradle-classpath/bin/` directory to your `$PATH`.
 
 ## Usage
 
-In its simplest form `gradle-classpath` can be called like this to output the classpath.
+In its simplest form `gradle-classpath` can be called like this to output the classpath of a Gradle project.
 ```bash
-$ cd {your project directory}
+$ cd {your Gradle project directory}
 $ gradle-classpath
 ```
 
 Or the classpath can be written to a file.
 ```bash
-$ cd {your project directory}
+$ cd {your Gradle project directory}
 $ gradle-classpath --output-file classpath.txt
 ```
 
@@ -67,8 +67,49 @@ Outputs the Gradle classpath to a file or STDOUT.
   -V, --version   Print version information and exit.
 ```
 
-[coc-groovy]:    https://github.com/dansomething/coc-groovy
-[gradle]:        https://gradle.org
-[maven]:         https://maven.apache.org
-[mvn-classpath]: https://maven.apache.org/plugins/maven-dependency-plugin/build-classpath-mojo.html
-[releases]:      https://github.com/dansomething/gradle-classpath/releases
+## Contributing
+
+### Building
+
+1. Clone this project and run the [Gradle install task][gradle-install].
+
+    ```bash
+    $ git clone https://github.com/dansomething/gradle-classpath.git
+    $ cd gradle-classpath
+    $ ./gradlew installDist
+    ```
+
+1. Look in `build/install/gradle-classpath` for the output.
+
+### Debugging
+
+1. Debug gradle-classpath on itself.
+
+    ```bash
+    $ ./gradlew run --debug-jvm
+    ```
+
+1. Set breakpoints.
+1. Attach a Java debugger client to port 5005.
+
+### Running
+
+* Run gradle-classpath on itself.
+
+    ```bash
+    $ ./gradlew run
+    ```
+
+* Run gradle-classpath on itself and write the results to a file.
+
+    ```bash
+    ./gradlew run --args='-o classpath.txt'
+    ```
+
+[coc-groovy]:     https://github.com/dansomething/coc-groovy
+[gradle]:         https://gradle.org
+[gradle-install]: https://docs.gradle.org/current/userguide/application_plugin.html#sec:application_tasks
+[java]:           https://www.oracle.com/technetwork/java/javase/downloads/index.html
+[maven]:          https://maven.apache.org
+[mvn-classpath]:  https://maven.apache.org/plugins/maven-dependency-plugin/build-classpath-mojo.html
+[releases]:       https://github.com/dansomething/gradle-classpath/releases
