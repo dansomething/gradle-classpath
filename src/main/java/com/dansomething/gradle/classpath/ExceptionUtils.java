@@ -2,9 +2,7 @@ package com.dansomething.gradle.classpath;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * Utilities for working with exceptions.
- */
+/** Utilities for working with exceptions. */
 public class ExceptionUtils {
   static Throwable getRootCause(final Throwable throwable) {
     requireNonNull(throwable);

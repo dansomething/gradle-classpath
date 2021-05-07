@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'application'
+  id "com.diffplug.spotless" version "5.12.4"
 }
 
 ext {
@@ -42,4 +43,17 @@ application {
 
 test {
   useJUnitPlatform()
+}
+
+spotless {
+  format 'misc', {
+    target '*.gradle', '*.md', '.gitignore', '*.xml'
+
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+  java {
+    googleJavaFormat()
+  }
 }

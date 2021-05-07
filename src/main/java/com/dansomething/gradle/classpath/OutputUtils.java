@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Utilities for working with application output.
- */
+/** Utilities for working with application output. */
 class OutputUtils {
   static void print(final String message, final File outputFile) throws ClasspathException {
     if (outputFile == null) {
@@ -39,16 +37,12 @@ class OutputUtils {
         outputFile.createNewFile();
       }
       try (FileWriter fw = new FileWriter(outputFile);
-          BufferedWriter bw = new BufferedWriter(fw)
-      ) {
+          BufferedWriter bw = new BufferedWriter(fw)) {
         bw.write(message);
       }
     } catch (final IOException e) {
-      throw new ClasspathException(String.format(
-        "Failed to write file. '%s'. Error! %s",
-        outputFile,
-        e.getMessage()
-      ));
+      throw new ClasspathException(
+          String.format("Failed to write file. '%s'. Error! %s", outputFile, e.getMessage()));
     }
   }
 }

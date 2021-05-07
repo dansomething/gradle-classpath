@@ -4,39 +4,47 @@ import static com.dansomething.gradle.classpath.GradleClasspath.getClasspath;
 import static com.dansomething.gradle.classpath.OutputUtils.print;
 import static com.dansomething.gradle.classpath.OutputUtils.toStderr;
 import static com.dansomething.gradle.classpath.OutputUtils.toStdout;
+
 import java.io.File;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-/**
- * A simple application to print the classpath from a Gradle project to stdout.
- */
-@Command(name = "gradle-classpath", mixinStandardHelpOptions = true,
+/** A simple application to print the classpath from a Gradle project to stdout. */
+@Command(
+    name = "gradle-classpath",
+    mixinStandardHelpOptions = true,
     version = "gradle-classpath 0.1.0",
     description = "Outputs the Gradle classpath to a file or STDOUT.")
 public class App implements Callable<Integer> {
-  @Option(names = {"-G", "--gradle-home"},
-      description = "Specifies the Gradle installation directory to use."
-          + " Defaults to a project-specific Gradle version.")
+  @Option(
+      names = {"-G", "--gradle-home"},
+      description =
+          "Specifies the Gradle installation directory to use."
+              + " Defaults to a project-specific Gradle version.")
   private String gradleHome;
 
-  @Option(names = {"-g", "--gradle-user-home"},
+  @Option(
+      names = {"-g", "--gradle-user-home"},
       description = "Specifies the Gradle user home directory. Defaults to ~/.gradle.")
   private String gradleUserHomeDir;
 
-  @Option(names = {"-o", "--output-file"},
+  @Option(
+      names = {"-o", "--output-file"},
       description = "Write the classpath to this file. If undefined, the output is sent to STDOUT.")
   private File outputFile;
 
-  @Option(names = {"-d", "--project-dir"},
+  @Option(
+      names = {"-d", "--project-dir"},
       description = "Path to the Gradle project. Defaults to the current directory.",
       defaultValue = ".")
   private String projectPath;
 
-  @Option(names = {"-s", "--path-separator"},
-      description = "The character used between paths. Defaults to ':'", defaultValue = ":")
+  @Option(
+      names = {"-s", "--path-separator"},
+      description = "The character used between paths. Defaults to ':'",
+      defaultValue = ":")
   private String pathSeparator;
 
   /**
@@ -47,12 +55,8 @@ public class App implements Callable<Integer> {
   @Override
   public Integer call() {
     try {
-      final String classpath = getClasspath(
-        gradleHome,
-        gradleUserHomeDir,
-        projectPath,
-        pathSeparator
-      );
+      final String classpath =
+          getClasspath(gradleHome, gradleUserHomeDir, projectPath, pathSeparator);
       print(classpath, outputFile);
       if (outputFile != null) {
         toStdout(String.format("Wrote classpath file '%s'", outputFile.getPath()));
@@ -68,9 +72,7 @@ public class App implements Callable<Integer> {
   /**
    * The main entry point to this application.
    *
-   * <p>
-   * See the fields in {@link App} for the possible command-line arguments.
-   * </P>
+   * <p>See the fields in {@link App} for the possible command-line arguments.
    *
    * @param args The command-line arguments provided.
    */
