@@ -57,3 +57,8 @@ spotless {
     googleJavaFormat()
   }
 }
+
+distTar {
+  compression = Compression.GZIP
+  archiveExtension = "tar.gz"
+}
