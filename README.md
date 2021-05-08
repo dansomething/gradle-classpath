@@ -1,3 +1,5 @@
+![Build Status][build-badge]
+
 # Gradle Classpath
 
 Output the classpath string of dependencies for a [Gradle][gradle] project.
@@ -106,6 +108,7 @@ Outputs the Gradle classpath to a file or STDOUT.
     ./gradlew run --args='-o classpath.txt'
     ```
 
+[build-badge]:    https://github.com/dansomething/gradle-classpath/actions/workflows/gradle.yml/badge.svg
 [coc-groovy]:     https://github.com/dansomething/coc-groovy
 [gradle]:         https://gradle.org
 [gradle-install]: https://docs.gradle.org/current/userguide/application_plugin.html#sec:application_tasks
