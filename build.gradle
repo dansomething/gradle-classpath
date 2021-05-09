@@ -2,6 +2,7 @@ plugins {
   id 'java'
   id 'application'
   id "com.diffplug.spotless" version "5.12.4"
+  id 'com.github.gmazzo.buildconfig' version '3.0.0'
 }
 
 ext {
@@ -11,7 +12,6 @@ ext {
   slf4jVersion = '1.7.30'
   toolingApiVersion = gradle.gradleVersion
 }
-
 
 repositories {
   maven {
@@ -45,6 +45,11 @@ test {
   useJUnitPlatform()
 }
 
+// https://github.com/gmazzo/gradle-buildconfig-plugin
+buildConfig {
+  packageName("com.dansomething.gradle.classpath")
+  buildConfigField('String', "APP_VERSION", "\"${project.version}\"")
+}
 spotless {
   format 'misc', {
     target '*.gradle', '*.md', '.gitignore', '*.xml'
@@ -54,6 +59,7 @@ spotless {
     endWithNewline()
   }
   java {
+    targetExclude 'build/generated/**/*.*'
     googleJavaFormat()
   }
 }
