@@ -1,7 +1,8 @@
 plugins {
   id 'java'
   id 'application'
-  id "com.diffplug.spotless" version "5.12.4"
+  id 'checkstyle'
+  id 'com.diffplug.spotless' version '5.12.4'
   id 'com.github.gmazzo.buildconfig' version '3.0.0'
 }
 
@@ -50,6 +51,17 @@ buildConfig {
   packageName("com.dansomething.gradle.classpath")
   buildConfigField('String', "APP_VERSION", "\"${project.version}\"")
 }
+
+// https://docs.gradle.org/current/userguide/checkstyle_plugin.html
+checkstyle {
+  configFile file("${rootDir}/checkstyle.xml")
+  maxWarnings 0
+  toolVersion '8.42'
+}
+// Be sure to ingore generated sources
+checkstyleMain.source = 'src/main/java'
+
+// https://github.com/diffplug/spotless/tree/main/plugin-gradle
 spotless {
   format 'misc', {
     target '*.gradle', '*.md', '.gitignore', '*.xml'
