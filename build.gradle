@@ -62,6 +62,12 @@ checkstyle {
 // Be sure to ingore generated sources
 checkstyleMain.source = 'src/main/java'
 
+release {
+  git {
+    requireBranch = 'main'
+  }
+}
+
 // https://github.com/diffplug/spotless/tree/main/plugin-gradle
 spotless {
   format 'misc', {
