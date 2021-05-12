@@ -2,6 +2,7 @@ package com.dansomething.gradle.classpath;
 
 import static com.dansomething.gradle.classpath.GradleClasspath.getClasspath;
 import static com.dansomething.gradle.classpath.OutputUtils.print;
+import static com.dansomething.gradle.classpath.OutputUtils.skipFileGeneration;
 import static com.dansomething.gradle.classpath.OutputUtils.toStderr;
 import static com.dansomething.gradle.classpath.OutputUtils.toStdout;
 
@@ -47,6 +48,14 @@ public class App implements Callable<Integer> {
       defaultValue = ":")
   private String pathSeparator;
 
+  @Option(
+      names = {"-r", "--regenerate-file"},
+      description =
+          "If 'true' it always regenerates the classpath file."
+              + "If 'false' it is not regenerated if it exists.",
+      defaultValue = "false")
+  private boolean regenerateFile;
+
   /**
    * Generates the classpath from the Eclipse model and outputs it.
    *
@@ -55,9 +64,11 @@ public class App implements Callable<Integer> {
   @Override
   public Integer call() {
     try {
-      final String classpath =
-          getClasspath(gradleHome, gradleUserHomeDir, projectPath, pathSeparator);
-      print(classpath, outputFile);
+      if (outputFile == null || !skipFileGeneration(outputFile, regenerateFile)) {
+        final String classpath =
+            getClasspath(gradleHome, gradleUserHomeDir, projectPath, pathSeparator);
+        print(classpath, outputFile, regenerateFile);
+      }
       if (outputFile != null) {
         toStdout(String.format("Wrote classpath file '%s'", outputFile.getPath()));
         toStdout("BUILD SUCCESS");
