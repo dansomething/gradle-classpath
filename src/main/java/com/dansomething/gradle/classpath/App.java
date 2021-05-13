@@ -52,7 +52,7 @@ public class App implements Callable<Integer> {
       names = {"-r", "--regenerate-file"},
       description =
           "If 'true' it always regenerates the classpath file."
-              + "If 'false' it is not regenerated if it exists.",
+              + " If 'false' it is not regenerated if it exists. Defaults to 'false'",
       defaultValue = "false")
   private boolean regenerateFile;
 

@@ -49,24 +49,28 @@ $ gradle-classpath --output-file classpath.txt
 Or display the `gradle-classpath` full usage details.
 ```bash
 $ gradle-classpath --help
-Usage: gradle-classpath [-hV] [-d=<projectPath>] [-g=<gradleUserHomeDir>]
+Usage: gradle-classpath [-hrV] [-d=<projectPath>] [-g=<gradleUserHomeDir>]
                         [-G=<gradleHome>] [-o=<outputFile>] [-s=<pathSeparator>]
 Outputs the Gradle classpath to a file or STDOUT.
   -d, --project-dir=<projectPath>
-                  Path to the Gradle project. Defaults to the current directory.
+                          Path to the Gradle project. Defaults to the current
+                            directory.
   -g, --gradle-user-home=<gradleUserHomeDir>
-                  Specifies the Gradle user home directory. Defaults to ~/.
-                    gradle.
+                          Specifies the Gradle user home directory. Defaults to
+                            ~/.gradle.
   -G, --gradle-home=<gradleHome>
-                  Specifies the Gradle installation directory to use. Defaults
-                    to a project-specific Gradle version.
-  -h, --help      Show this help message and exit.
+                          Specifies the Gradle installation directory to use.
+                            Defaults to a project-specific Gradle version.
+  -h, --help              Show this help message and exit.
   -o, --output-file=<outputFile>
-                  Write the classpath to this file. If undefined, the output is
-                    sent to STDOUT.
+                          Write the classpath to this file. If undefined, the
+                            output is sent to STDOUT.
+  -r, --regenerate-file   If 'true' it always regenerates the classpath file.
+                            If 'false' it is not regenerated if it exists.
+                            Defaults to 'false'
   -s, --path-separator=<pathSeparator>
-                  The character used between paths. Defaults to ':'
-  -V, --version   Print version information and exit.
+                          The character used between paths. Defaults to ':'
+  -V, --version           Print version information and exit.
 ```
 
 ## Contributing
