@@ -2,16 +2,16 @@ plugins {
   id 'java'
   id 'application'
   id 'checkstyle'
-  id 'com.diffplug.spotless' version '5.12.4'
-  id 'com.github.gmazzo.buildconfig' version '3.0.0'
+  id 'com.diffplug.spotless' version '6.3.0'
+  id 'com.github.gmazzo.buildconfig' version '3.0.3'
   id 'net.researchgate.release' version '2.8.1'
 }
 
 ext {
   javaVersion = '1.8'
-  junitVersion = '5.7.1'
-  picocliVersion = '4.6.1'
-  slf4jVersion = '1.7.30'
+  junitVersion = '5.8.2'
+  picocliVersion = '4.6.3'
+  slf4jVersion = '1.7.36'
   toolingApiVersion = gradle.gradleVersion
 }
 
