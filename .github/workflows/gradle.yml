@@ -14,7 +14,7 @@ jobs:
       matrix:
         java-version: ['8', '11']
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-    name: Java ${{ matrix.Java }} (${{ matrix.os }})
+    name: Build and Test (Java ${{ matrix.java-version }} / ${{ matrix.os }})
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'adopt'
+          distribution: 'temurin'
       - name: Cache Gradle packages
         # https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#caching-dependencies
         uses: actions/cache@v2
@@ -30,14 +30,15 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            ~/.gradle/gradle-classpath
+          key: v2-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/*.jar') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            v2-${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew build
-      - name: Run Classpath
-        run: ./gradlew run
-      - name: Distribution
+        run: ./gradlew build run installDist
+      - name: Save install for test job
+        run: cp -R build/install/gradle-classpath ~/.gradle/
+      - name: Create Distribution Zip
         if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest' && matrix.java-version == '8' }}
         run: ./gradlew distZip
       - name: Release
@@ -48,3 +49,34 @@ jobs:
           files: build/distributions/gradle-classpath*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java-version: ['17', '18']
+        os: ['ubuntu-latest', 'macos-latest']
+    name: Test (Java ${{ matrix.java-version }} / ${{ matrix.os }})
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+      - name: Cache Gradle packages
+        # https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#caching-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.gradle/gradle-classpath
+          key: v2-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/*.jar') }}
+          restore-keys: |
+            v2-${{ runner.os }}-gradle-
+      - name: Run Classpath
+        run: ~/.gradle/gradle-classpath/bin/gradle-classpath
+        if: ${{ matrix.os != 'windows-latest' }}
