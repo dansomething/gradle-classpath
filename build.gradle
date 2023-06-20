@@ -2,7 +2,7 @@ plugins {
   id 'java'
   id 'application'
   id 'checkstyle'
-  id 'com.diffplug.spotless' version '6.19.0'
+  id 'com.diffplug.spotless' version '6.13.0'
   id 'com.github.ben-manes.versions' version '0.47.0'
   id 'com.github.gmazzo.buildconfig' version '4.0.4'
   id 'net.researchgate.release' version '3.0.2'
