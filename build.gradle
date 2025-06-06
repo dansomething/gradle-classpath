@@ -10,7 +10,7 @@ plugins {
 
 ext {
   checkstyleToolVersion = '9.3'
-  junitVersion = '5.9.0'
+  junitVersion = '5.13.0'
   picocliVersion = '4.7.4'
   slf4jVersion = '1.7.36'
   toolingApiVersion = '8.1.1'
@@ -36,8 +36,9 @@ dependencies {
 
   runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-  testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+  testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
@@ -46,6 +47,9 @@ application {
 
 test {
   useJUnitPlatform()
+  testLogging {
+    events "passed", "skipped", "failed"
+  }
 }
 
 // https://github.com/gmazzo/gradle-buildconfig-plugin
